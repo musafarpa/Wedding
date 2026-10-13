@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8C6F2A" />
+      <stop offset="35%" stop-color="#E8D296" />
+      <stop offset="65%" stop-color="#FFF4D0" />
+      <stop offset="100%" stop-color="#C9A24B" />
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Ring -->
+  <circle cx="32" cy="32" r="28.5" fill="none" stroke="#C9A24B" stroke-width="1.5" />
+  
+  <!-- Inner Ring -->
+  <circle cx="32" cy="32" r="24.5" fill="none" stroke="#E8D296" stroke-width="0.75" />
+
+  <!-- Tiny Auspicious Lotus Crest at Top -->
+  <path d="M32 4.8 C31.2 6.5 30 7.8 28.8 8.4 C30.6 8.5 32 7.2 32 7.2 C32 7.2 33.4 8.5 35.2 8.4 C34 7.8 32.8 6.5 32 4.8 Z" fill="url(#goldGrad)" />
+  <circle cx="32" cy="9.2" r="0.8" fill="#E8D296" />
+
+  <!-- Monogram Letters Group: A, &, R -->
+  <g fill="url(#goldGrad)">
+    <!-- Letter 'A' (Centered at X ≈ 20.5) -->
+    <path d="
+      M 16.2 41.5
+      L 14 41.5
+      L 14 40.2
+      L 16.4 40.2
+      L 19.8 23
+      L 21.6 23
+      L 25.2 40.2
+      L 27.2 40.2
+      L 27.2 41.5
+      L 24.2 41.5
+      L 24.2 40.2
+      L 25 40.2
+      L 24 35.5
+      L 17.5 35.5
+      L 16.8 40.2
+      L 17.8 40.2
+      L 17.8 41.5
+      L 16.2 41.5 Z
+      M 17.8 34.2
+      L 23.7 34.2
+      L 20.8 24.8
+      L 20.6 24.8
+      Z
+    " />
+
+    <!-- Ampersand '&' (Centered at X = 32, Y = 32.5) -->
+    <path d="
+      M 31.8 30.5
+      C 30.8 29.5 30.2 28.5 30.2 27.3
+      C 30.2 25.6 31.3 24.4 32.7 24.4
+      C 33.9 24.4 34.8 25.3 34.8 26.6
+      C 34.8 28.2 33.6 29.8 32.1 31.2
+      L 34.2 33.6
+      C 35 32.7 35.5 31.7 35.7 30.8
+      L 36.8 31.1
+      C 36.4 32.4 35.7 33.6 34.7 34.6
+      L 36.5 36.8
+      L 35.6 37.4
+      L 33.8 35.2
+      C 32.8 36.2 31.7 36.8 30.4 36.8
+      C 28.8 36.8 27.6 35.6 27.6 33.9
+      C 27.6 32.2 28.8 30.8 30.6 29.7
+      L 31.8 30.5 Z
+      M 32.1 26.7
+      C 32.1 25.8 31.6 25.2 31 25.2
+      C 30.4 25.2 30 25.8 30 26.7
+      C 30 27.5 30.4 28.3 31.1 29.1
+      C 31.8 28.3 32.1 27.4 32.1 26.7 Z
+      M 33.1 34.3
+      L 31.2 32.2
+      C 29.9 33.1 29.2 34 29.2 35
+      C 29.2 35.9 29.8 36.4 30.7 36.4
+      C 31.5 36.4 32.3 35.6 33.1 34.3 Z
+    " />
+
+    <!-- Letter 'R' (Centered at X ≈ 43.5) -->
+    <path d="
+      M 38 41.5
+      L 38 40.2
+      L 39.5 40.2
+      L 39.5 24.3
+      L 38 24.3
+      L 38 23
+      L 44.5 23
+      C 47 23 48.8 24.5 48.8 27.2
+      C 48.8 29.3 47.6 30.8 45.4 31.4
+      C 46.8 32.2 47.5 33.6 48.4 36.5
+      C 48.9 38.3 49.4 39.6 50 40.2
+      L 50 40.5
+      L 50 41.5
+      L 47.8 41.5
+      C 47.1 40.8 46.6 39.4 46.1 37.4
+      C 45.3 34.3 44.4 33.2 42.4 33.2
+      L 41.6 33.2
+      L 41.6 40.2
+      L 43.2 40.2
+      L 43.2 41.5
+      L 38 41.5 Z
+      M 41.6 24.3
+      L 41.6 31.9
+      L 44 31.9
+      C 45.8 31.9 46.8 30.7 46.8 28.2
+      C 46.8 25.5 45.6 24.3 43.8 24.3
+      L 41.6 24.3 Z
+    " />
+  </g>
+</svg>
