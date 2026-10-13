@@ -27,11 +27,18 @@ export default function App() {
       wheelMultiplier: 0.92,
       touchMultiplier: 1.4,
       smoothWheel: true,
+      autoToggle: false,
     });
     window.lenis = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
-    const tick = (time) => lenis.raf(time * 1000);
+    const tick = (time) => {
+      try {
+        lenis.raf(time * 1000);
+      } catch {
+        // safeguard
+      }
+    };
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 

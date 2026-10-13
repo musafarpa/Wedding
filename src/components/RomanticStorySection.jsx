@@ -214,6 +214,9 @@ export default function RomanticStorySection() {
       return isNaN(val) || val <= 0 ? 72 : val;
     };
 
+    let tickerFn;
+    let marqueeObs;
+
     // Use gsap.context to make the entire timeline safe under React StrictMode
     const ctx = gsap.context(() => {
       // ─────────────────────────────────────────────────────────────
@@ -251,7 +254,7 @@ export default function RomanticStorySection() {
       let currentSkew = 0;
 
       // Pause when marquee is off screen
-      const marqueeObs = new IntersectionObserver(
+      marqueeObs = new IntersectionObserver(
         ([entry]) => {
           marqueeVisible = entry.isIntersecting;
         },
@@ -259,29 +262,33 @@ export default function RomanticStorySection() {
       );
       if (marqueeRef.current) marqueeObs.observe(marqueeRef.current);
 
-      const tickerFn = () => {
-        if (!marqueeVisible || !track1 || !track2) return;
+      tickerFn = () => {
+        try {
+          if (!marqueeVisible || !track1 || !track2) return;
 
-        // Read scroll velocity safely
-        const velocity = ScrollTrigger.getVelocity() || 0;
+          // Read scroll velocity safely from lenis or 0
+          const velocity = (window.lenis && typeof window.lenis.velocity === 'number') ? window.lenis.velocity : 0;
 
-        // Idle drift + velocity contribution
-        pos1 -= STORY_CONFIG.marquee.speed + velocity * STORY_CONFIG.marquee.velocityBoost;
-        pos2 += STORY_CONFIG.marquee.speed + velocity * STORY_CONFIG.marquee.velocityBoost;
+          // Idle drift + velocity contribution
+          pos1 -= STORY_CONFIG.marquee.speed + velocity * STORY_CONFIG.marquee.velocityBoost;
+          pos2 += STORY_CONFIG.marquee.speed + velocity * STORY_CONFIG.marquee.velocityBoost;
 
-        // Seamless -50% to 0% wrap for duplicated track
-        if (pos1 <= -50) pos1 += 50;
-        if (pos1 > 0) pos1 -= 50;
+          // Seamless -50% to 0% wrap for duplicated track
+          if (pos1 <= -50) pos1 += 50;
+          if (pos1 > 0) pos1 -= 50;
 
-        if (pos2 >= 0) pos2 -= 50;
-        if (pos2 < -50) pos2 += 50;
+          if (pos2 >= 0) pos2 -= 50;
+          if (pos2 < -50) pos2 += 50;
 
-        // Skew clamped between -6 and +6 degrees, eased back to 0
-        const targetSkew = Math.max(-STORY_CONFIG.marquee.skewMax, Math.min(STORY_CONFIG.marquee.skewMax, velocity * 0.003));
-        currentSkew += (targetSkew - currentSkew) * 0.12;
+          // Skew clamped between -6 and +6 degrees, eased back to 0
+          const targetSkew = Math.max(-STORY_CONFIG.marquee.skewMax, Math.min(STORY_CONFIG.marquee.skewMax, velocity * 0.003));
+          currentSkew += (targetSkew - currentSkew) * 0.12;
 
-        gsap.set(track1, { xPercent: pos1, skewX: currentSkew });
-        gsap.set(track2, { xPercent: pos2, skewX: -currentSkew });
+          gsap.set(track1, { xPercent: pos1, skewX: currentSkew });
+          gsap.set(track2, { xPercent: pos2, skewX: -currentSkew });
+        } catch {
+          // Safeguard ticker
+        }
       };
 
       gsap.ticker.add(tickerFn);
@@ -439,6 +446,8 @@ export default function RomanticStorySection() {
     window.addEventListener('resize', onResize);
 
     return () => {
+      if (tickerFn) gsap.ticker.remove(tickerFn);
+      if (marqueeObs) marqueeObs.disconnect();
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', onResize);
       ctx.revert();
