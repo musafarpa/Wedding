@@ -1,0 +1,801 @@
+/* =====================================================================
+   VENUE SECTION — "THE ARRIVAL JOURNEY"
+   Awwwards-Level Cinematic Destination Showcase for Kumarakom Lake Resort
+   Dark Green Sacred Atmosphere, Arch Hero Reveal, Animated Route Map
+   ===================================================================== */
+
+.venue {
+  position: relative;
+  width: 100%;
+  padding: 5.5rem 1.5rem 6.5rem 1.5rem;
+  background: radial-gradient(circle at 50% 15%, #0F3B2E 0%, #0C3126 50%, #071F18 100%);
+  color: #F7F2E7;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+}
+
+@media (max-width: 768px) {
+  .venue {
+    padding: 3.75rem 1rem 4.5rem 1rem;
+  }
+}
+
+/* Subtle Kerala Kasavu & Lotus Line Art Pattern at 4% Opacity */
+.venue::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(201, 162, 75, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(232, 210, 150, 0.05) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='70' height='70' viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C9A24B' fill-opacity='0.04'%3E%3Cpath d='M35 15 C30 25 20 28 20 35 C20 42 27 45 35 45 C43 45 50 42 50 35 C50 28 40 25 35 15 Z'/%3E%3Ccircle cx='35' cy='35' r='12' fill='none' stroke='%23C9A24B' stroke-width='0.75' stroke-opacity='0.04'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: auto, auto, 70px 70px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Background Motes / Canvas */
+.venue-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.venue-container {
+  max-width: 1220px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* -------------------------------------------------------------
+   HEADER
+   ------------------------------------------------------------- */
+.venue-header {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 2.75rem auto;
+  position: relative;
+  z-index: 2;
+}
+
+.venue-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #E8D296;
+  background: linear-gradient(135deg, rgba(201, 162, 75, 0.18) 0%, rgba(15, 59, 46, 0.5) 100%);
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  padding: 0.5rem 1.4rem;
+  border-radius: 9999px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gold Shimmer Sweep on Badge */
+.venue-badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-20deg);
+  animation: venueBadgeShimmer 4.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes venueBadgeShimmer {
+  0%, 60% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.venue-title {
+  font-family: var(--font-display, 'Cinzel Decorative', 'Playfair Display', serif);
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  color: #F7F2E7;
+  line-height: 1.18;
+  letter-spacing: 0.02em;
+  margin: 0 0 1.25rem 0;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+}
+
+.venue-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 1.5rem auto;
+  max-width: 320px;
+}
+
+.venue-divider-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #C9A24B, transparent);
+  transform-origin: center;
+}
+
+/* Glowing Pulsing Lotus Icon replacing the pink dot */
+.venue-divider-lotus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: lotusPulse 2.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(201, 162, 75, 0.75));
+}
+
+.venue-divider-lotus svg {
+  width: 22px;
+  height: 22px;
+  fill: #E8D296;
+}
+
+@keyframes lotusPulse {
+  0%, 100% {
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 5px rgba(201, 162, 75, 0.5));
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 14px rgba(232, 210, 150, 0.95));
+    opacity: 1;
+  }
+}
+
+.venue-subtitle {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-style: italic;
+  color: #E8D296;
+  opacity: 0.92;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* -------------------------------------------------------------
+   HERO PHOTO (Curved Arch Opening Reveal, Parallax & Warm Dusk)
+   ------------------------------------------------------------- */
+.venue-hero {
+  position: relative;
+  max-width: 1140px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.venue-hero-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.7), 0 0 35px rgba(201, 162, 75, 0.2);
+  border: 2px solid #C9A24B;
+  background: #081B14;
+}
+
+@media (max-width: 768px) {
+  .venue-hero-frame {
+    aspect-ratio: 4 / 3;
+    border-radius: 20px;
+  }
+}
+
+/* Double Gold Border Inner Ring */
+.venue-hero-frame::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: calc(28px - 6px);
+  border: 1px solid rgba(232, 210, 150, 0.4);
+  pointer-events: none;
+  z-index: 5;
+}
+
+@media (max-width: 768px) {
+  .venue-hero-frame::after {
+    inset: 4px;
+    border-radius: calc(20px - 4px);
+  }
+}
+
+.venue-hero-img-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.venue-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+  display: block;
+  transform: scale(1);
+  will-change: transform;
+}
+
+/* Golden Hour to Dusk Gradient Overlay (Scrubbed with ScrollTrigger) */
+.venue-hero-dusk-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(232, 140, 48, 0.15) 0%, rgba(15, 59, 46, 0.2) 50%, rgba(7, 23, 16, 0.7) 100%);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+/* Soft Water-Ripple Shimmer on Lower Third */
+.venue-hero-water-shimmer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  background: linear-gradient(180deg, transparent 0%, rgba(201, 162, 75, 0.08) 50%, rgba(7, 23, 16, 0.5) 100%);
+  pointer-events: none;
+  z-index: 3;
+  animation: waterRippleShimmer 6s ease-in-out infinite alternate;
+}
+
+@keyframes waterRippleShimmer {
+  0% { opacity: 0.35; transform: scaleY(0.98); }
+  100% { opacity: 0.65; transform: scaleY(1.02); }
+}
+
+/* Floating Lantern Lights Canvas over photo water area */
+.venue-lanterns-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* CAPTION PILL — Sits BELOW photo edge in normal flow (Never covers crowd) */
+.venue-caption-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 1.25rem auto 0 auto;
+  background: rgba(12, 38, 29, 0.85);
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  border-radius: 9999px;
+  padding: 0.55rem 1.45rem;
+  color: #E8D296;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.venue-caption-icon {
+  width: 14px;
+  height: 14px;
+  color: #C9A24B;
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------
+   TWO-COLUMN GRID: VENUE CARD (5/12) & JOURNEY (7/12)
+   ------------------------------------------------------------- */
+.venue-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.25rem;
+  align-items: stretch;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+  .venue-grid {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+/* -------------------------------------------------------------
+   LEFT COLUMN: VENUE CARD (3D Tilt & Ticket Elegance)
+   ------------------------------------------------------------- */
+.venue-card-wrapper {
+  perspective: 1200px;
+  width: 100%;
+  height: 100%;
+}
+
+.venue-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(15, 59, 46, 0.85) 0%, rgba(10, 38, 29, 0.95) 100%);
+  border: 1.5px solid rgba(201, 162, 75, 0.4);
+  border-radius: 26px;
+  padding: 2.75rem 2.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(201, 162, 75, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  will-change: transform;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .venue-card {
+    padding: 2rem 1.6rem;
+    border-radius: 20px;
+  }
+}
+
+.venue-card-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: inherit;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.venue-card-inner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transform: translateZ(12px);
+  transform-style: preserve-3d;
+}
+
+.venue-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #E8D296;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.venue-card-title {
+  font-family: var(--font-display, 'Cinzel Decorative', 'Playfair Display', serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  color: #F7F2E7;
+  line-height: 1.18;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+}
+
+.venue-card-tagline {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: #C9A24B;
+  margin: 0 0 1.5rem 0;
+}
+
+.venue-address-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  color: #E6EAE3;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.venue-pin-icon {
+  width: 20px;
+  height: 20px;
+  color: #C9A24B;
+  flex-shrink: 0;
+  margin-top: 3px;
+  transform: translateZ(12px);
+}
+
+/* WEATHER CHIP (Interactive SVG Sun with Rotating Rays & Breeze Line) */
+.venue-weather-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(7, 23, 16, 0.85);
+  border: 1px solid rgba(201, 162, 75, 0.35);
+  border-radius: 9999px;
+  padding: 0.55rem 1.25rem;
+  color: #F7F2E7;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.venue-weather-sun-wrap {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.venue-weather-sun {
+  width: 100%;
+  height: 100%;
+  animation: sunRayRotate 18s linear infinite;
+}
+
+@keyframes sunRayRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.venue-weather-breeze {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: breezeDrift 3.5s ease-in-out infinite;
+}
+
+@keyframes breezeDrift {
+  0% { stroke-dashoffset: 20; opacity: 0; }
+  40% { stroke-dashoffset: 0; opacity: 1; }
+  80%, 100% { stroke-dashoffset: -20; opacity: 0; }
+}
+
+/* Google Maps Gold Action Button */
+.venue-maps-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #F8E7B2 0%, #D4AF62 50%, #A28035 100%);
+  color: #0F3B2E;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.6rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 6px 20px rgba(201, 162, 75, 0.35);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(12px);
+  margin-bottom: 2rem;
+}
+
+.venue-maps-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.venue-maps-btn:hover {
+  transform: translateY(-2px) translateZ(12px);
+  box-shadow: 0 10px 28px rgba(201, 162, 75, 0.5);
+}
+
+.venue-maps-btn:hover::after {
+  left: 200%;
+}
+
+.venue-maps-btn:hover .venue-btn-arrow {
+  transform: translateX(3px);
+}
+
+.venue-btn-arrow {
+  transition: transform 0.25s ease;
+}
+
+/* HOSPITALITY CONTACT CARD with pulsing phone icon & tel: link */
+.venue-hospitality-card {
+  margin-top: auto;
+  padding: 1.15rem 1.35rem;
+  background: rgba(6, 21, 15, 0.85);
+  border: 1px solid rgba(201, 162, 75, 0.3);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.venue-hosp-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.venue-phone-pulse {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(201, 162, 75, 0.15);
+  border: 1px solid #C9A24B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E8D296;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.venue-phone-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid #C9A24B;
+  animation: phoneRingPulse 2.5s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes phoneRingPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.venue-hosp-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-hosp-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #C9A24B;
+  font-weight: 700;
+}
+
+.venue-tel-link {
+  color: #F7F2E7;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.venue-tel-link:hover {
+  color: #E8D296;
+  text-decoration: underline;
+}
+
+.venue-tap-hint {
+  font-size: 0.72rem;
+  color: #C9A24B;
+  background: rgba(201, 162, 75, 0.12);
+  padding: 0.3rem 0.65rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(201, 162, 75, 0.25);
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------------
+   RIGHT COLUMN: ANIMATED ROUTE MAP & JOURNEY TABS
+   ------------------------------------------------------------- */
+.venue-journey {
+  position: relative;
+  background: linear-gradient(145deg, rgba(13, 50, 39, 0.85) 0%, rgba(8, 30, 23, 0.95) 100%);
+  border: 1.5px solid rgba(201, 162, 75, 0.4);
+  border-radius: 26px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(201, 162, 75, 0.12);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .venue-journey {
+    padding: 1.75rem 1.4rem;
+    border-radius: 20px;
+  }
+}
+
+.venue-journey-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.venue-journey-title {
+  font-family: var(--font-display, 'Cinzel Decorative', serif);
+  font-size: 1.35rem;
+  color: #E8D296;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* TABS (Real buttons, role=tablist / tab, arrow-key navigation) */
+.venue-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(5, 18, 13, 0.8);
+  padding: 0.4rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(201, 162, 75, 0.3);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.venue-tab-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 9999px;
+  background: transparent;
+  color: #C5D1C9;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
+
+.venue-tab-btn:hover {
+  color: #F7F2E7;
+  background: rgba(201, 162, 75, 0.12);
+}
+
+.venue-tab-btn[aria-selected="true"] {
+  background: linear-gradient(135deg, #C9A24B 0%, #8C6F2A 100%);
+  color: #071F18;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(201, 162, 75, 0.35);
+}
+
+.venue-tab-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* ANIMATED ROUTE MAP (Inline SVG) */
+.venue-map-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #061A13;
+  border: 1px solid rgba(201, 162, 75, 0.35);
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+  margin-bottom: 1.5rem;
+}
+
+.venue-map-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Pulsing Gold Pin on Kumarakom Resort */
+.venue-resort-pulse {
+  animation: resortRingPulse 2.4s ease-out infinite;
+  transform-origin: 340px 210px;
+}
+
+@keyframes resortRingPulse {
+  0% { r: 8px; opacity: 0.9; }
+  100% { r: 24px; opacity: 0; }
+}
+
+/* Boat gently bobbing on water route */
+.venue-boat-bobbing {
+  animation: boatBob 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes boatBob {
+  0% { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(3px) rotate(3deg); }
+}
+
+/* ROUTE DETAIL PANEL */
+.venue-detail-panel {
+  background: rgba(6, 21, 15, 0.85);
+  border: 1px solid rgba(201, 162, 75, 0.3);
+  border-radius: 18px;
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.venue-stat-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-stat-num {
+  font-family: var(--font-display, 'Cinzel Decorative', serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #E8D296;
+  line-height: 1;
+}
+
+.venue-stat-label {
+  font-size: 0.75rem;
+  color: #A3B5AC;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.venue-detail-desc {
+  flex: 1;
+  min-width: 220px;
+  font-size: 0.92rem;
+  color: #E6EAE3;
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------------
+   ACCESSIBILITY & REDUCED MOTION
+   ------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid #C9A24B !important;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .venue *,
+  .venue-badge::after,
+  .venue-divider-lotus,
+  .venue-weather-sun,
+  .venue-weather-breeze,
+  .venue-resort-pulse,
+  .venue-boat-bobbing,
+  .venue-phone-pulse::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .venue-bg-canvas,
+  .venue-lanterns-canvas,
+  .venue-card-glare {
+    display: none !important;
+  }
+}
