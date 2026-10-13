@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import StoryTimeline from './components/StoryTimeline';
 import InvitationCard3D from './components/InvitationCard3D';
-import EventsSection from './components/EventsSection';
+import CelebrationsSection from './components/CelebrationsSection';
 import VenueSection from './components/VenueSection';
 import CountdownRSVP from './components/CountdownRSVP';
 import Footer from './components/Footer';
@@ -18,7 +18,7 @@ export default function App() {
       <HeroSection />
       <StoryTimeline />
       <InvitationCard3D />
-      <EventsSection />
+      <CelebrationsSection />
       <VenueSection />
       <CountdownRSVP />
       <Footer />
