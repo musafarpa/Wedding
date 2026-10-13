@@ -6,7 +6,7 @@ import StoryTimeline from './components/StoryTimeline';
 import InvitationCard3D from './components/InvitationCard3D';
 import CelebrationsSection from './components/CelebrationsSection';
 import VenueSection from './components/VenueSection';
-import CountdownRSVP from './components/CountdownRSVP';
+import CountdownRsvpSection from './components/CountdownRsvpSection';
 import Footer from './components/Footer';
 import AudioPlayer from './components/AudioPlayer';
 
@@ -20,7 +20,7 @@ export default function App() {
       <InvitationCard3D />
       <CelebrationsSection />
       <VenueSection />
-      <CountdownRSVP />
+      <CountdownRsvpSection />
       <Footer />
       <AudioPlayer />
     </div>
