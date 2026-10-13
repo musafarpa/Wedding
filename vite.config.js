@@ -106,7 +106,7 @@ export default defineConfig({
     port: 5173,
     host: true,
     watch: {
-      ignored: ['**/*.mp3', '**/*.mp4'],
+      ignored: ['**/*.mp3', '**/*.mp4', '**/*.zip', '**/dist/**'],
     },
   },
 });
