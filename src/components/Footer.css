@@ -1,0 +1,482 @@
+/* =====================================================================
+   FOOTER COMPONENT — "THE LAST BLESSING"
+   Cinematic Kerala-Traditional Closing Scene with Deep Green & Gold Palette
+   ===================================================================== */
+
+.site-footer {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(180deg, #0A2A21 0%, #061A14 60%, #030E0A 100%);
+  color: #F7F2E7;
+  overflow: clip; /* Clean clip preventing any horizontal page scroll */
+  box-sizing: border-box;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  z-index: 10;
+}
+
+/* Kasavu Cream + Gold Strip along top edge */
+.footer-top-strip {
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #F7F2E7 0%, #C9A24B 20%, #E8D296 40%, #C9A24B 60%, #E8D296 80%, #F7F2E7 100%);
+  box-shadow: 0 0 15px rgba(201, 162, 75, 0.5);
+  position: relative;
+  z-index: 5;
+}
+
+/* Subtle Temple Mural & Kasavu Texture Background (4% opacity) */
+.footer-bg-texture {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(201, 162, 75, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(15, 59, 46, 0.12) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C9A24B' fill-opacity='0.04'%3E%3Cpath d='M40 0l5 15h15l-12 9 5 16-13-10-13 10 5-16-12-9h15z'/%3E%3Ccircle cx='40' cy='40' r='18' fill='none' stroke='%23C9A24B' stroke-width='0.75' stroke-opacity='0.04'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: auto, auto, 80px 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient Canvas behind footer */
+.footer-ambient-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* -------------------------------------------------------------
+   HASHTAG MARQUEE
+   ------------------------------------------------------------- */
+.footer-marquee {
+  width: 100%;
+  overflow: hidden;
+  padding: 1.25rem 0;
+  background: rgba(4, 15, 11, 0.45);
+  border-bottom: 1px solid rgba(201, 162, 75, 0.2);
+  user-select: none;
+  position: relative;
+  z-index: 3;
+}
+
+.footer-marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: footerMarqueeDrift 28s linear infinite;
+  will-change: transform;
+}
+
+.footer-marquee:hover .footer-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes footerMarqueeDrift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.footer-marquee-text {
+  font-family: var(--font-display, 'Cinzel Decorative', Georgia, serif);
+  font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #E8D296;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0 1.5rem;
+}
+
+.footer-marquee-icon {
+  font-size: 0.85em;
+  color: #C9A24B;
+  filter: drop-shadow(0 0 6px rgba(201, 162, 75, 0.6));
+}
+
+/* -------------------------------------------------------------
+   MAIN FOOTER CONTENT
+   ------------------------------------------------------------- */
+.footer-main {
+  position: relative;
+  z-index: 3;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .footer-main {
+    padding: 3rem 1rem 2rem 1rem;
+  }
+}
+
+.footer-warm-line {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.38rem);
+  color: #E8D296;
+  letter-spacing: 0.02em;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Monogram 3D Tilt Seal */
+.footer-monogram-wrap {
+  perspective: 800px;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+}
+
+.footer-monogram {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1.5px solid #C9A24B;
+  background: linear-gradient(135deg, rgba(201, 162, 75, 0.18) 0%, rgba(10, 42, 33, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E8D296;
+  font-family: var(--font-display, 'Cinzel Decorative', Georgia, serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  box-shadow: 0 0 28px rgba(201, 162, 75, 0.3), inset 0 0 15px rgba(201, 162, 75, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: monogramPulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes monogramPulse {
+  0% { transform: rotateY(-10deg); box-shadow: 0 0 20px rgba(201, 162, 75, 0.25); }
+  100% { transform: rotateY(10deg); box-shadow: 0 0 32px rgba(201, 162, 75, 0.45); }
+}
+
+.footer-monogram-wrap:hover .footer-monogram {
+  box-shadow: 0 0 35px rgba(201, 162, 75, 0.6);
+  border-color: #E8D296;
+}
+
+/* Giant Gold Names */
+.footer-names-masked {
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 0.4rem;
+}
+
+.footer-names {
+  font-family: var(--font-display, 'Cinzel Decorative', Georgia, serif);
+  font-size: clamp(2.4rem, 7.5vw, 6.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0;
+  background: linear-gradient(135deg, #F8E7B2 0%, #D4AF62 40%, #FFFDF9 55%, #C9A24B 75%, #8C6F2A 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: namesGoldSweep 6s linear infinite;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@keyframes namesGoldSweep {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.footer-tagline {
+  font-family: var(--font-script, 'Great Vibes', cursive);
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  color: #E8D296;
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 18px rgba(201, 162, 75, 0.3);
+}
+
+/* Lotus Ornament Divider */
+.footer-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 1rem auto 2.25rem auto;
+  max-width: 380px;
+  width: 100%;
+}
+
+.footer-divider-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #C9A24B, transparent);
+}
+
+.footer-divider-lotus {
+  font-size: 1.35rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(201, 162, 75, 0.6));
+}
+
+/* Nav Links */
+.footer-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.2rem, 2.5vw, 2.2rem);
+  flex-wrap: wrap;
+  margin-bottom: 2.25rem;
+}
+
+.footer-nav-link {
+  color: #D6E2DC;
+  text-decoration: none;
+  font-size: clamp(0.92rem, 1.2vw, 1.02rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: color 0.25s ease, transform 0.25s ease;
+  position: relative;
+  padding: 0.25rem 0.4rem;
+}
+
+.footer-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: #C9A24B;
+  transition: width 0.25s ease, left 0.25s ease;
+}
+
+.footer-nav-link:hover {
+  color: #E8D296;
+  transform: translateY(-1px);
+}
+
+.footer-nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Hashtag Pill */
+.footer-hashtag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.5rem;
+  border-radius: 9999px;
+  background: rgba(10, 42, 33, 0.9);
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  color: #E8D296;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  margin-bottom: 2rem;
+}
+
+.footer-hashtag-pill:hover {
+  transform: translateY(-2px);
+  border-color: #E8D296;
+  background: rgba(201, 162, 75, 0.18);
+  box-shadow: 0 6px 25px rgba(201, 162, 75, 0.3);
+}
+
+/* Buttons Row: Share & Calendar */
+.footer-buttons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.footer-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 9999px;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.footer-btn-share {
+  background: linear-gradient(135deg, #F8E7B2 0%, #D4AF62 50%, #A28035 100%);
+  color: #0F3B2E;
+  border: none;
+  box-shadow: 0 6px 20px rgba(201, 162, 75, 0.35);
+}
+
+.footer-btn-share:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(201, 162, 75, 0.5);
+}
+
+.footer-btn-cal {
+  background: rgba(10, 42, 33, 0.85);
+  border: 1.5px solid #C9A24B;
+  color: #E8D296;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.footer-btn-cal:hover {
+  transform: translateY(-2px);
+  background: rgba(201, 162, 75, 0.16);
+  border-color: #E8D296;
+}
+
+/* Shimmer Sweep */
+.footer-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.footer-btn:hover::after {
+  left: 200%;
+}
+
+/* -------------------------------------------------------------
+   FOOTER BOTTOM BAR
+   ------------------------------------------------------------- */
+.footer-bottom {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.75rem 1.5rem 2.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.88rem;
+  color: #C0CDC6;
+}
+
+@media (max-width: 600px) {
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1rem 2rem 1rem;
+  }
+}
+
+.footer-crafted {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+/* Nilavilakku Back-to-Top Lamp Button */
+.footer-lamp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(10, 42, 33, 0.8);
+  border: 1.5px solid rgba(201, 162, 75, 0.4);
+  border-radius: 9999px;
+  padding: 0.55rem 1.25rem;
+  color: #E8D296;
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.footer-lamp-btn:hover {
+  transform: translateY(-2px);
+  border-color: #C9A24B;
+  box-shadow: 0 0 20px rgba(201, 162, 75, 0.45);
+}
+
+.footer-lamp-icon {
+  animation: lampFlicker 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes lampFlicker {
+  0% { transform: scale(0.96) rotate(-1deg); filter: drop-shadow(0 0 3px rgba(201, 162, 75, 0.5)); }
+  50% { transform: scale(1.08) rotate(2deg); filter: drop-shadow(0 0 9px rgba(255, 215, 0, 0.85)); }
+  100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 5px rgba(201, 162, 75, 0.6)); }
+}
+
+/* Toast Notification */
+.footer-toast {
+  position: fixed;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: linear-gradient(135deg, #0F3B2E 0%, #071F17 100%);
+  border: 1.5px solid #C9A24B;
+  color: #FFFDF8;
+  padding: 0.75rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(201, 162, 75, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  z-index: 9999;
+  animation: toastFade 2.8s ease forwards;
+}
+
+@keyframes toastFade {
+  0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+}
+
+/* -------------------------------------------------------------
+   ACCESSIBILITY & PREFERS-REDUCED-MOTION
+   ------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .site-footer *,
+  .footer-marquee-track,
+  .footer-names,
+  .footer-monogram,
+  .footer-lamp-icon,
+  .footer-btn::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .footer-ambient-canvas {
+    display: none !important;
+  }
+}
