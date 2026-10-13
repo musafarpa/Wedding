@@ -1,0 +1,409 @@
+/* =====================================================================
+   THE ROMANTIC 3D WEDDING JOURNEY — GLOBAL DESIGN SYSTEM & STYLES
+   Inspired by Kerala Backwaters, Kasavu Gold, and Cinematic Romance
+   ===================================================================== */
+
+:root {
+  /* Requested Luxury Palette */
+  --palette-warm-ivory: #F8F3E8;
+  --palette-forest-green: #123B2C;
+  --palette-champagne-gold: #D4AF62;
+  --palette-soft-sage: #DCE6D8;
+  --palette-white: #FFFFFF;
+
+  /* Color Palette Tokens */
+  --color-ivory-50: #FFFFFF;
+  --color-ivory-100: #F8F3E8;
+  --color-ivory-200: #EFE8DC;
+  --color-ivory-300: #E5DAC4;
+
+  --color-gold-300: #E8CF8C;
+  --color-gold-400: #D4AF62;
+  --color-gold-500: #BF9B4A;
+  --color-gold-600: #A28035;
+  --color-gold-700: #785A1D;
+
+  --color-emerald-950: #0B241B;
+  --color-emerald-900: #123B2C;
+  --color-emerald-850: #184B38;
+  --color-emerald-800: #205D46;
+  --color-emerald-700: #287155;
+  --color-emerald-500: #3A8E6D;
+
+  --color-sage-100: #F2F6F0;
+  --color-sage-200: #DCE6D8;
+  --color-sage-300: #C2D3BC;
+
+  --color-amber-500: #d97736;
+  --color-amber-600: #b85b1f;
+
+  --color-rose-200: #f7deda;
+  --color-rose-300: #eebfb8;
+  --color-rose-500: #cf786d;
+
+  --color-text-dark: #123B2C;
+  --color-text-muted: #3D5A4E;
+  --color-text-light: #F8F3E8;
+  --color-text-gold: #D4AF62;
+
+  /* Typography Fonts */
+  --font-display: 'Cinzel Decorative', 'Playfair Display', serif;
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-script: 'Great Vibes', cursive;
+
+  /* Gradients */
+  --grad-gold-foil: linear-gradient(135deg, #F8E7B2 0%, #D4AF62 50%, #A28035 100%);
+  --grad-gold-subtle: linear-gradient(135deg, rgba(212, 175, 98, 0.25) 0%, rgba(191, 155, 74, 0.05) 100%);
+  --grad-emerald-dark: linear-gradient(180deg, #0B241B 0%, #123B2C 50%, #0B241B 100%);
+  --grad-emerald-overlay: linear-gradient(180deg, rgba(11, 36, 27, 0.85) 0%, rgba(18, 59, 44, 0.4) 50%, rgba(11, 36, 27, 0.95) 100%);
+  --grad-ivory-card: linear-gradient(145deg, #FFFFFF 0%, #F8F3E8 100%);
+
+  /* Shadows & Glows */
+  --shadow-gold-glow: 0 0 35px rgba(212, 175, 98, 0.35);
+  --shadow-gold-soft: 0 8px 32px rgba(162, 128, 53, 0.18);
+  --shadow-card-elevated: 0 20px 45px rgba(18, 59, 44, 0.15), 0 2px 10px rgba(0, 0, 0, 0.08);
+  --shadow-deep: 0 25px 60px rgba(0, 0, 0, 0.45);
+
+  /* Border Radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 36px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =====================================================================
+   RESET & BASE
+   ===================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--color-emerald-950);
+  color: var(--color-text-light);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Eliminate accidental browser default blue outlines while maintaining accessible focus on interactive elements */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--palette-champagne-gold) !important;
+  outline-offset: 2px;
+}
+
+#root, main, section, header, footer, canvas {
+  outline: none !important;
+  box-shadow: none;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-gold-500);
+  color: var(--color-emerald-950);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-emerald-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-600);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-400);
+}
+
+/* =====================================================================
+   TYPOGRAPHY UTILITIES
+   ===================================================================== */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.text-gold-gradient {
+  background: var(--grad-gold-foil);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.text-gold-subtle {
+  color: var(--color-gold-400);
+}
+
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 1.75rem auto;
+  max-width: 320px;
+  opacity: 0.9;
+}
+
+.ornament-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold-400), transparent);
+}
+
+.ornament-icon {
+  color: var(--color-gold-400);
+  font-size: 1.1rem;
+  transform: translateY(-1px);
+}
+
+/* =====================================================================
+   LAYOUT CONTAINERS
+   ===================================================================== */
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-padding {
+  padding: 4.8rem 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 3.2rem 0;
+  }
+}
+
+/* Section Header standard */
+.section-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 2.75rem auto;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold-400);
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.4rem 1.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  color: var(--color-ivory-100);
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: var(--color-ivory-300);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* =====================================================================
+   INTERACTIVE BUTTONS
+   ===================================================================== */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.95rem 2rem;
+  background: var(--grad-gold-foil);
+  color: var(--color-emerald-950);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.35);
+  transition: var(--transition-smooth);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-25deg);
+  transition: 0.75s ease;
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(212, 175, 55, 0.55);
+}
+
+.btn-gold:hover::after {
+  left: 200%;
+}
+
+.btn-gold:active {
+  transform: translateY(1px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.9rem 1.85rem;
+  background: rgba(253, 251, 247, 0.06);
+  color: var(--color-ivory-100);
+  border: 1px solid rgba(226, 196, 116, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: rgba(226, 196, 116, 0.15);
+  border-color: var(--color-gold-400);
+  color: var(--color-gold-300);
+  transform: translateY(-2px);
+}
+
+/* =====================================================================
+   GLASSMORPHISM & LUXURY CARDS
+   ===================================================================== */
+.glass-panel {
+  background: rgba(11, 37, 25, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 196, 116, 0.22);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-deep);
+}
+
+.ivory-card {
+  background: var(--grad-ivory-card);
+  color: var(--color-text-dark);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--color-gold-400);
+  box-shadow: var(--shadow-card-elevated);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Golden Corner Ornaments */
+.card-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-gold-500);
+  pointer-events: none;
+}
+.card-corner.top-left {
+  top: 12px;
+  left: 12px;
+  border-right: none;
+  border-bottom: none;
+}
+.card-corner.top-right {
+  top: 12px;
+  right: 12px;
+  border-left: none;
+  border-bottom: none;
+}
+.card-corner.bottom-left {
+  bottom: 12px;
+  left: 12px;
+  border-right: none;
+  border-top: none;
+}
+.card-corner.bottom-right {
+  bottom: 12px;
+  right: 12px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Micro-animations */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulseGold {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+}
+
+@keyframes shimmerWave {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+/* Accessible reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

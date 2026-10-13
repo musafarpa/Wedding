@@ -1,0 +1,754 @@
+/* ─────────────────────────────────────────────────────────────────
+   SPLASH SCREEN STYLES
+   Kerala Royal 3D Wedding Invitation Card ("Tap to Open")
+───────────────────────────────────────────────────────────────── */
+
+.splash-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99999;
+  background-color: #F7F2E7;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+}
+
+/* ── SUBTLE RADIAL GOLD GLOW IN BACKGROUND ── */
+.splash-bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(232, 210, 150, 0.28) 0%, rgba(201, 162, 75, 0.08) 55%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── KASAVU SCREEN BORDER FRAME ── */
+.splash-kasavu-frame {
+  position: absolute;
+  inset: clamp(10px, 2vw, 22px);
+  border: 1px solid rgba(201, 162, 75, 0.35);
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: inset 0 0 30px rgba(201, 162, 75, 0.06);
+}
+
+.splash-kasavu-frame::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(201, 162, 75, 0.18);
+}
+
+.splash-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #C9A24B;
+  border-style: solid;
+}
+.splash-corner-tl { top: -2px; left: -2px; border-width: 2.5px 0 0 2.5px; }
+.splash-corner-tr { top: -2px; right: -2px; border-width: 2.5px 2.5px 0 0; }
+.splash-corner-bl { bottom: -2px; left: -2px; border-width: 0 0 2.5px 2.5px; }
+.splash-corner-br { bottom: -2px; right: -2px; border-width: 0 2.5px 2.5px 0; }
+
+/* ── FAINT TEMPLE MURAL LINE ART IN CORNERS (OPACITY 0.05) ── */
+.splash-mural-corner {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 2;
+  color: #0F3B2E;
+}
+.splash-mural-tl { top: 24px; left: 24px; }
+.splash-mural-br { bottom: 24px; right: 24px; transform: rotate(180deg); }
+
+/* ── THREE.JS PETAL & DUST CANVAS ── */
+.splash-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ── SKIP BUTTON ── */
+.splash-skip-btn {
+  position: absolute;
+  top: clamp(16px, 3vw, 32px);
+  right: clamp(16px, 3vw, 32px);
+  z-index: 40;
+  background: rgba(247, 242, 231, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  color: #8C6F2A;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.splash-skip-btn:hover {
+  background: #C9A24B;
+  color: #F7F2E7;
+  border-color: #C9A24B;
+  box-shadow: 0 4px 14px rgba(201, 162, 75, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ── MAIN CONTENT (FLEX COLUMN, SPACIOUS, ZERO OVERLAP) ── */
+.splash-main-container {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+  gap: clamp(28px, 4.2vh, 44px);
+}
+
+/* ── 3D ENVELOPE STAGE ── */
+.envelope-stage {
+  position: relative;
+  width: min(84vw, 470px);
+  aspect-ratio: 1.48 / 1;
+  perspective: 1600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contact shadow underneath envelope */
+.envelope-ground-shadow {
+  position: absolute;
+  bottom: -18px;
+  width: 76%;
+  height: 22px;
+  background: radial-gradient(ellipse, rgba(15, 59, 46, 0.22) 0%, rgba(201, 162, 75, 0.08) 45%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(4px);
+  transform-origin: center;
+  animation: shadowBreathe 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* 3D Envelope Body */
+.envelope-3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+  cursor: pointer;
+}
+
+/* Idle float animation */
+.envelope-floating {
+  animation: envelopeIdleFloat 4.2s ease-in-out infinite;
+}
+
+/* Envelope Back Layer */
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #FAF6EE 0%, #F5EEDF 100%);
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(15, 59, 46, 0.12), 0 4px 12px rgba(201, 162, 75, 0.1);
+  overflow: hidden;
+}
+
+/* Emerald green lining inside back */
+.envelope-inner-lining {
+  position: absolute;
+  inset: 8px;
+  background: linear-gradient(135deg, #0A2B21 0%, #0F3B2E 60%, #154D3D 100%);
+  border-radius: 5px;
+  border: 1.5px solid rgba(201, 162, 75, 0.5);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* Gold Kasavu motifs on lining */
+.envelope-lining-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image: radial-gradient(#E8D296 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* ── THE INVITATION CARD (SLIDES OUT OF POCKET) ── */
+.envelope-card-item {
+  position: absolute;
+  top: 6px;
+  left: 6%;
+  width: 88%;
+  height: 94%;
+  background: #FCF9F2;
+  border: 1.5px solid #C9A24B;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  z-index: 3;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  box-sizing: border-box;
+}
+
+.envelope-card-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(201, 162, 75, 0.35);
+  padding: 0.8rem 1.4rem;
+  border-radius: 4px;
+  width: 90%;
+  height: 85%;
+  justify-content: center;
+  background: rgba(247, 242, 231, 0.6);
+}
+
+.envelope-card-preview-monogram {
+  font-family: var(--font-display, 'Cinzel Decorative', Georgia, serif);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #C9A24B;
+  letter-spacing: 0.1em;
+}
+
+.envelope-card-preview-sub {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: #0F3B2E;
+  opacity: 0.8;
+}
+
+/* ── FRONT POCKET (V-SHAPED LOWER ENVELOPE) ── */
+.envelope-front-pocket {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  /* V-notch opening showing the card inside */
+  clip-path: polygon(0% 0%, 50% 50%, 100% 0%, 100% 100%, 0% 100%);
+  background: linear-gradient(160deg, #F9F5EC 0%, #F1E9D7 100%);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.8), 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.envelope-pocket-border {
+  position: absolute;
+  inset: 0;
+  /* Gold trim matching the V cut */
+  border-bottom: 2px solid rgba(201, 162, 75, 0.5);
+}
+
+/* ── TOP FLAP (TRIANGLE THAT FLIPS OPEN -180 DEG) ── */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 58%;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  z-index: 5;
+  will-change: transform;
+}
+
+.envelope-flap-front {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(180deg, #F6F0E4 0%, #EDE4D0 100%);
+  border-top: 1px solid rgba(201, 162, 75, 0.4);
+  box-shadow: 0 4px 14px rgba(15, 59, 46, 0.1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.envelope-flap-gold-trim {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: transparent;
+  border-bottom: 2.5px solid #C9A24B;
+}
+
+.envelope-flap-back {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(180deg, #0A2B21 0%, #0F3B2E 100%);
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* ── WAX SEAL (CENTRAL MONOGRAM AT FLAP TIP) ── */
+.wax-seal {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  z-index: 6;
+  border-radius: 50%;
+  cursor: pointer;
+  filter: drop-shadow(0 4px 10px rgba(140, 111, 42, 0.45));
+  transform-style: preserve-3d;
+}
+
+.wax-seal-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF0BD 0%, #D8B258 35%, #9E7D2B 75%, #6B5216 100%);
+  border: 2px solid #E8D296;
+  box-shadow: inset 0 0 8px rgba(70, 50, 10, 0.6), 0 3px 8px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wax-seal-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.6) 50%, transparent 60%);
+  animation: sealSweep 3.2s ease-in-out infinite;
+}
+
+.wax-seal-monogram {
+  font-family: var(--font-display, 'Cinzel Decorative', Georgia, serif);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #382708;
+  text-shadow: 1px 1px 1px rgba(255, 245, 210, 0.6), -1px -1px 1px rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+/* Crack halves when opened */
+.wax-seal-halves {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+}
+.wax-seal-half {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── FULL OPENED BOOK INVITATION (EXPANDED STAGE) ── */
+.book-invitation-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.65);
+  width: min(92vw, 760px);
+  aspect-ratio: 1.44 / 1;
+  perspective: 2000px;
+  transform-style: preserve-3d;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 25;
+}
+
+.book-invitation-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transform-style: preserve-3d;
+  box-shadow: 0 25px 65px rgba(15, 59, 46, 0.28), 0 0 35px rgba(201, 162, 75, 0.2);
+  border-radius: 12px;
+}
+
+/* Right Panel (Base Page with Invitation Text) */
+.book-panel-right {
+  flex: 1;
+  height: 100%;
+  background: #FCF9F2;
+  border-radius: 0 12px 12px 0;
+  border: 1.5px solid #C9A24B;
+  border-left: none;
+  padding: clamp(1.2rem, 3.2vw, 2.4rem);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.book-panel-right::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(201, 162, 75, 0.4);
+  pointer-events: none;
+}
+
+/* Left Folding Cover (Folds open rotateY 0 -> -170deg) */
+.book-panel-left-flipper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  z-index: 10;
+  will-change: transform;
+}
+
+/* Front of the left cover */
+.book-left-front {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #09261C 0%, #0F3B2E 100%);
+  border-radius: 12px 0 0 12px;
+  border: 1.5px solid #C9A24B;
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.4);
+}
+
+.book-left-front-inner {
+  border: 1.5px solid rgba(201, 162, 75, 0.6);
+  padding: 1.5rem;
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Inside of the left cover (Revealed after rotateY -170deg) */
+.book-left-back {
+  position: absolute;
+  inset: 0;
+  background: #FCF9F2;
+  border-radius: 12px 0 0 12px;
+  border: 1.5px solid #C9A24B;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  padding: clamp(1rem, 2.5vw, 1.8rem);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-couple-portrait-arch {
+  width: 82%;
+  aspect-ratio: 16 / 11;
+  border-radius: 90px 90px 8px 8px;
+  overflow: hidden;
+  border: 2px solid #C9A24B;
+  box-shadow: 0 8px 20px rgba(15, 59, 46, 0.18);
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+
+.book-couple-portrait-arch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 32%;
+  display: block;
+}
+
+.book-blessing-text {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-style: italic;
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  color: #0F3B2E;
+  opacity: 0.85;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 90%;
+}
+
+/* Typography inside Right Page */
+.book-family-header {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  color: #8C6F2A;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.04em;
+}
+
+.book-couple-names {
+  font-family: var(--font-display, 'Cinzel Decorative', Georgia, serif);
+  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  font-weight: 800;
+  color: #0F3B2E;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0.3rem 0;
+  line-height: 1.2;
+}
+
+.book-date-venue {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  color: #0F3B2E;
+  margin-top: 0.4rem;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+/* ── UI SECTION BELOW ENVELOPE (CLEAN, 32PX+ GAP, ZERO OVERLAP) ── */
+.splash-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 90vw;
+  gap: 8px;
+}
+
+.splash-names {
+  font-family: var(--font-display, 'Cinzel Decorative', Georgia, serif);
+  font-size: clamp(1.6rem, 3.8vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin: 0;
+  background: linear-gradient(110deg, #8C6F2A 0%, #C9A24B 35%, #FFF2C6 52%, #C9A24B 68%, #8C6F2A 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: splashShimmer 6s linear infinite;
+}
+
+.splash-date {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: #0F3B2E;
+  opacity: 0.85;
+  letter-spacing: 0.06em;
+  margin: 0 0 12px 0;
+}
+
+/* ── PRELOAD LOADER ── */
+.splash-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 190px;
+}
+
+.splash-progress-track {
+  width: 100%;
+  height: 2.5px;
+  background: rgba(201, 162, 75, 0.2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.splash-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #C9A24B, #E8D296);
+  border-radius: 99px;
+  transition: width 0.25s ease-out;
+  box-shadow: 0 0 8px rgba(201, 162, 75, 0.6);
+}
+
+.splash-loader-text {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8C6F2A;
+}
+
+/* ── TAP BUTTON ── */
+.splash-tap-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(0.7rem, 1.6vh, 0.9rem) clamp(1.5rem, 3.5vw, 2.2rem);
+  background: linear-gradient(135deg, rgba(201, 162, 75, 0.14) 0%, rgba(232, 210, 150, 0.35) 50%, rgba(201, 162, 75, 0.14) 100%);
+  border: 1.5px solid #C9A24B;
+  border-radius: 9999px;
+  color: #0F3B2E;
+  font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+  font-size: clamp(0.85rem, 1.7vw, 0.98rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(201, 162, 75, 0.22), inset 0 0 12px rgba(255, 245, 210, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: splashPulse 2.8s ease-in-out infinite;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.splash-tap-btn:hover {
+  background: linear-gradient(135deg, rgba(201, 162, 75, 0.25) 0%, rgba(232, 210, 150, 0.5) 50%, rgba(201, 162, 75, 0.25) 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(201, 162, 75, 0.38), 0 0 16px rgba(201, 162, 75, 0.25);
+  border-color: #E8D296;
+}
+
+.splash-tap-btn:focus-visible {
+  outline: 3px solid #0F3B2E;
+  outline-offset: 3px;
+}
+
+/* ── CREAM FLASH OVERLAY ── */
+.splash-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, #FFFDF7 20%, #F7F2E7 85%);
+  z-index: 35;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes envelopeIdleFloat {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateX(2deg) rotateY(-1.5deg);
+  }
+}
+
+@keyframes shadowBreathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.16;
+  }
+}
+
+@keyframes sealSweep {
+  0%, 70% {
+    transform: translate(-100%, -100%) rotate(45deg);
+  }
+  100% {
+    transform: translate(100%, 100%) rotate(45deg);
+  }
+}
+
+@keyframes splashShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes splashPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 6px 20px rgba(201, 162, 75, 0.22), inset 0 0 12px rgba(255, 245, 210, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 8px 28px rgba(201, 162, 75, 0.4), inset 0 0 18px rgba(255, 245, 210, 0.6);
+  }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .envelope-floating {
+    animation: none;
+  }
+  .envelope-ground-shadow {
+    animation: none;
+  }
+  .splash-names {
+    animation: none;
+  }
+  .splash-tap-btn {
+    animation: none;
+  }
+  .wax-seal-shine {
+    animation: none;
+  }
+}
+
+/* ── MOBILE RESPONSIVENESS (360PX - 768PX) ── */
+@media (max-width: 768px) {
+  .splash-main-container {
+    gap: clamp(22px, 3.8vh, 32px);
+    padding: 1.2rem 1rem;
+  }
+  .envelope-stage {
+    width: min(82vw, 360px);
+    aspect-ratio: 1.48 / 1;
+  }
+  .book-invitation-container {
+    width: 94vw;
+    aspect-ratio: 1.3 / 1;
+  }
+  .book-couple-names {
+    font-size: 1.25rem;
+  }
+  .book-family-header {
+    font-size: 0.85rem;
+  }
+  .book-date-venue {
+    font-size: 0.85rem;
+  }
+  .book-blessing-text {
+    font-size: 0.82rem;
+  }
+}
