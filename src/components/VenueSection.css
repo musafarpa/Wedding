@@ -7,17 +7,18 @@
 .venue {
   position: relative;
   width: 100%;
-  padding: 5.5rem 1.5rem 6.5rem 1.5rem;
+  padding: 5.5rem clamp(16px, 5vw, 24px) 6.5rem clamp(16px, 5vw, 24px);
   background: radial-gradient(circle at 50% 15%, #0F3B2E 0%, #0C3126 50%, #071F18 100%);
   color: #F7F2E7;
-  overflow: hidden;
+  overflow-x: clip; /* clip protects fixed positioning and ScrollTrigger pins */
   box-sizing: border-box;
   font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
 }
 
 @media (max-width: 768px) {
   .venue {
-    padding: 3.75rem 1rem 4.5rem 1rem;
+    padding: 3.5rem clamp(16px, 5vw, 24px) calc(88px + env(safe-area-inset-bottom, 24px)) clamp(16px, 5vw, 24px);
+    overflow-x: clip;
   }
 }
 
@@ -187,9 +188,9 @@
   background: #081B14;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 899px) {
   .venue-hero-frame {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 3 !important;
     border-radius: 20px;
   }
 }
@@ -280,12 +281,25 @@
   padding: 0.55rem 1.45rem;
   color: #E8D296;
   font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
-  font-size: 0.84rem;
+  font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .venue-caption-pill {
+    white-space: normal;
+    text-align: center;
+    border-radius: 18px;
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    line-height: 1.4;
+  }
 }
 
 .venue-caption-icon {
@@ -305,6 +319,24 @@
   align-items: stretch;
   max-width: 1140px;
   margin: 0 auto;
+}
+
+.venue-grid,
+.venue-grid > *,
+.venue-card-wrapper,
+.venue-journey,
+.venue-card,
+.venue-card-inner {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.venue-card-title,
+.venue-address-row,
+.venue-hosp-text,
+.venue-detail-desc {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 @media (min-width: 992px) {
@@ -342,8 +374,13 @@
 
 @media (max-width: 768px) {
   .venue-card {
-    padding: 2rem 1.6rem;
-    border-radius: 20px;
+    padding: 20px !important;
+    border-radius: 20px !important;
+  }
+  .venue-card-title {
+    font-size: clamp(1.9rem, 8vw, 2.6rem) !important;
+    text-wrap: balance !important;
+    line-height: 1.18 !important;
   }
 }
 
@@ -423,13 +460,25 @@
   gap: 0.75rem;
   background: rgba(7, 23, 16, 0.85);
   border: 1px solid rgba(201, 162, 75, 0.35);
-  border-radius: 9999px;
-  padding: 0.55rem 1.25rem;
+  border-radius: 20px;
+  padding: 12px 16px;
   color: #F7F2E7;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 500;
   margin-bottom: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  white-space: normal;
+  max-width: 100%;
+  box-sizing: border-box;
+  line-height: 1.45;
+}
+
+@media (max-width: 480px) {
+  .venue-weather-chip {
+    padding: 12px 16px;
+    border-radius: 20px;
+    font-size: 0.84rem;
+  }
 }
 
 .venue-weather-sun-wrap {
@@ -476,6 +525,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 0.85rem 1.6rem;
+  min-height: 48px;
   border-radius: 9999px;
   text-decoration: none;
   cursor: pointer;
@@ -486,6 +536,17 @@
   overflow: hidden;
   transform: translateZ(12px);
   margin-bottom: 2rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .venue-maps-btn {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .venue-maps-btn::after {
@@ -528,6 +589,39 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.venue-tel-num {
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .venue-hospitality-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 1rem !important;
+    gap: 0.85rem !important;
+  }
+
+  .venue-hosp-left {
+    width: 100%;
+  }
+
+  .venue-tap-hint {
+    width: 100% !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0.65rem 1rem !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    font-size: 0.85rem !important;
+  }
 }
 
 .venue-hosp-left {
@@ -689,23 +783,146 @@
   height: 15px;
 }
 
-/* ANIMATED ROUTE MAP (Inline SVG) */
+@media (max-width: 480px) {
+  .venue-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    padding: 6px !important;
+    border-radius: 16px !important;
+    overflow-x: visible !important;
+  }
+
+  .venue-tab-btn {
+    flex-direction: column !important;
+    gap: 4px !important;
+    min-height: 56px !important;
+    padding: 8px 4px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+    white-space: normal !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+  }
+
+  .venue-tab-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .venue-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-radius: 9999px;
+    padding: 0.4rem;
+  }
+
+  .venue-tab-btn {
+    flex: 1;
+    min-height: 48px;
+    font-size: 14px;
+    padding: 0.6rem 1rem;
+    white-space: nowrap;
+  }
+}
+
+/* ANIMATED ROUTE MAP (Inline SVG Container) */
 .venue-map-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
   border-radius: 18px;
   overflow: hidden;
   background: #061A13;
   border: 1px solid rgba(201, 162, 75, 0.35);
   box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
+  box-sizing: border-box;
 }
 
-.venue-map-svg {
+.venue-map-desktop {
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
   display: block;
+}
+
+.venue-map-mobile {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 340 / 420;
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .venue-map-desktop {
+    display: none !important;
+  }
+  .venue-map-mobile {
+    display: block !important;
+  }
+}
+
+/* READABLE ROUTE LEGEND FOR MOBILE (<640px) */
+.venue-map-legend {
+  display: none;
+  background: rgba(5, 18, 13, 0.95);
+  border-top: 1px solid rgba(201, 162, 75, 0.25);
+  padding: 0.85rem 1rem;
+  gap: 0.6rem;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .venue-map-legend {
+    display: flex;
+  }
+}
+
+.venue-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 13px;
+  color: #C5D1C9;
+  line-height: 1.35;
+}
+
+.venue-legend-item.active {
+  color: #F7F2E7;
+  font-weight: 700;
+}
+
+.venue-legend-item.destination {
+  color: #E8D296;
+}
+
+.venue-legend-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  background: #0A2A21;
+  border: 1px solid #C9A24B;
+  color: #E8D296;
+  flex-shrink: 0;
+}
+
+.venue-legend-item.active .venue-legend-badge {
+  background: #C9A24B;
+  color: #071F18;
+}
+
+.venue-legend-badge.dest-badge {
+  background: #0F3B2E;
+  color: #F7F2E7;
+  border-color: #E8D296;
 }
 
 /* Pulsing Gold Pin on Kumarakom Resort */
@@ -731,6 +948,7 @@
 
 /* ROUTE DETAIL PANEL */
 .venue-detail-panel {
+  margin-top: 16px;
   background: rgba(6, 21, 15, 0.85);
   border: 1px solid rgba(201, 162, 75, 0.3);
   border-radius: 18px;
@@ -740,6 +958,7 @@
   justify-content: space-between;
   gap: 1.25rem;
   flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .venue-stat-col {
@@ -766,9 +985,15 @@
 .venue-detail-desc {
   flex: 1;
   min-width: 220px;
-  font-size: 0.92rem;
   color: #E6EAE3;
   line-height: 1.6;
+}
+
+.venue-detail-desc p {
+  font-size: 16px !important;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
 }
 
 /* -------------------------------------------------------------

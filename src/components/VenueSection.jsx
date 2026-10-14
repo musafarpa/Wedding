@@ -295,16 +295,22 @@ export default function VenueSection() {
   const [activeTab, setActiveTab] = useState('air');
   const [countedKm, setCountedKm] = useState(0);
 
-  // Path animation refs
+  // Path animation refs (Desktop & Mobile)
   const pathAirRef = useRef(null);
   const pathRailRef = useRef(null);
   const pathWaterRef = useRef(null);
   const travelerRef = useRef(null);
 
+  const pathAirMobRef = useRef(null);
+  const pathRailMobRef = useRef(null);
+  const pathWaterMobRef = useRef(null);
+  const travelerMobRef = useRef(null);
+
   // 1. Interactive 3D Card Tilt (Desktop)
   const handleCardMouseMove = (e) => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (window.matchMedia('(hover: none)').matches) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     const card = cardRef.current;
     if (!card) return;
 
@@ -381,7 +387,7 @@ export default function VenueSection() {
     }
   };
 
-  // Animate Route Stroke and Vehicle Position
+  // Animate Route Stroke and Vehicle Position (Supports desktop & mobile layouts)
   const animateRoute = (tabKey) => {
     const route = CONFIG.routes[tabKey];
     if (!route) return;
@@ -402,39 +408,49 @@ export default function VenueSection() {
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    let targetPath = null;
-    if (tabKey === 'air') targetPath = pathAirRef.current;
-    if (tabKey === 'rail') targetPath = pathRailRef.current;
-    if (tabKey === 'water') targetPath = pathWaterRef.current;
-
-    if (targetPath) {
-      const len = targetPath.getTotalLength();
-      gsap.fromTo(
-        targetPath,
-        { strokeDasharray: len, strokeDashoffset: len },
-        { strokeDashoffset: 0, duration: 1.1, ease: 'power2.out' }
-      );
-
-      // Animate vehicle traveling along path
-      if (travelerRef.current) {
-        const traveler = travelerRef.current;
-        const progressObj = { p: 0 };
-        gsap.fromTo(
-          progressObj,
-          { p: 0 },
-          {
-            p: 1,
-            duration: 1.1,
-            ease: 'power2.out',
-            onUpdate: () => {
-              const pt = targetPath.getPointAtLength(progressObj.p * len);
-              traveler.setAttribute('cx', pt.x);
-              traveler.setAttribute('cy', pt.y);
-            },
-          }
-        );
-      }
+    const targets = [];
+    if (tabKey === 'air') {
+      if (pathAirRef.current) targets.push({ path: pathAirRef.current, traveler: travelerRef.current });
+      if (pathAirMobRef.current) targets.push({ path: pathAirMobRef.current, traveler: travelerMobRef.current });
     }
+    if (tabKey === 'rail') {
+      if (pathRailRef.current) targets.push({ path: pathRailRef.current, traveler: travelerRef.current });
+      if (pathRailMobRef.current) targets.push({ path: pathRailMobRef.current, traveler: travelerMobRef.current });
+    }
+    if (tabKey === 'water') {
+      if (pathWaterRef.current) targets.push({ path: pathWaterRef.current, traveler: travelerRef.current });
+      if (pathWaterMobRef.current) targets.push({ path: pathWaterMobRef.current, traveler: travelerMobRef.current });
+    }
+
+    targets.forEach(({ path, traveler }) => {
+      if (!path) return;
+      try {
+        const len = path.getTotalLength();
+        gsap.fromTo(
+          path,
+          { strokeDasharray: len, strokeDashoffset: len },
+          { strokeDashoffset: 0, duration: 1.1, ease: 'power2.out' }
+        );
+
+        if (traveler) {
+          const progressObj = { p: 0 };
+          gsap.fromTo(
+            progressObj,
+            { p: 0 },
+            {
+              p: 1,
+              duration: 1.1,
+              ease: 'power2.out',
+              onUpdate: () => {
+                const pt = path.getPointAtLength(progressObj.p * len);
+                traveler.setAttribute('cx', pt.x);
+                traveler.setAttribute('cy', pt.y);
+              },
+            }
+          );
+        }
+      } catch (_) {}
+    });
   };
 
   // GSAP ScrollTrigger Setup
@@ -545,6 +561,7 @@ export default function VenueSection() {
         duration: CONFIG.durations.reveal,
         ease: CONFIG.durations.ease,
         stagger: 0.15,
+        clearProps: 'transform',
         scrollTrigger: {
           trigger: '.venue-hero',
           start: 'center 75%',
@@ -700,11 +717,12 @@ export default function VenueSection() {
                     <div className="venue-hosp-text">
                       <span className="venue-hosp-label">Hospitality Team</span>
                       <a href={VENUE_DATA.hospitality.tel} className="venue-tel-link">
-                        {VENUE_DATA.hospitality.contact}
+                        <span className="venue-tel-num">+91&nbsp;98470&nbsp;12345</span>{' '}
+                        <span className="venue-tel-name">(Rahul Menon)</span>
                       </a>
                     </div>
                   </div>
-                  <span className="venue-tap-hint">Tap to call</span>
+                  <a href={VENUE_DATA.hospitality.tel} className="venue-tap-hint">Tap to call</a>
                 </div>
               </div>
             </article>
@@ -743,17 +761,18 @@ export default function VenueSection() {
               })}
             </div>
 
-            {/* STYLISED DARK-GREEN INLINE SVG MAP */}
+            {/* STYLISED DARK-GREEN INLINE SVG MAP CONTAINER */}
             <div className="venue-map-wrap">
+              {/* DESKTOP / TABLET SVG MAP (600x380) */}
               <svg
-                className="venue-map-svg"
+                className="venue-map-svg venue-map-desktop"
                 viewBox="0 0 600 380"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 role="img"
                 aria-label="Stylized map showing travel routes to Kumarakom Lake Resort via Air, Rail, and Water"
               >
-                <title>Kumarakom Travel Routes Map</title>
+                <title>Kumarakom Travel Routes Map (Desktop)</title>
 
                 {/* Lake Vembanad Stylized Shape */}
                 <path
@@ -763,7 +782,7 @@ export default function VenueSection() {
                   strokeWidth="1"
                 />
 
-                {/* Subtle Water Shimmer Waves */}
+                {/* Water Shimmer Waves */}
                 <path d="M 150 140 Q 180 135 210 140" stroke="rgba(232, 210, 150, 0.15)" strokeWidth="1" />
                 <path d="M 170 220 Q 210 215 250 220" stroke="rgba(232, 210, 150, 0.15)" strokeWidth="1" />
                 <path d="M 190 290 Q 230 285 270 290" stroke="rgba(232, 210, 150, 0.15)" strokeWidth="1" />
@@ -850,10 +869,8 @@ export default function VenueSection() {
 
                 {/* PIN 4: Kumarakom Lake Resort (DESTINATION - HERO PIN) */}
                 <g transform="translate(340, 210)">
-                  {/* Concentric Pulsing Gold Ring */}
                   <circle cx="0" cy="0" r="16" fill="none" stroke="#C9A24B" strokeWidth="1.5" className="venue-resort-pulse" />
                   <circle cx="0" cy="0" r="14" fill="#0F3B2E" stroke="#E8D296" strokeWidth="2" />
-                  {/* Golden Lotus / Lamp Core */}
                   <circle cx="0" cy="0" r="6" fill="#C9A24B" />
                   <circle cx="0" cy="0" r="2.5" fill="#FFFBEB" />
                   <text x="18" y="5" fill="#F7F2E7" fontSize="12" fontWeight="700" fontFamily="serif">
@@ -870,6 +887,135 @@ export default function VenueSection() {
                   </g>
                 )}
               </svg>
+
+              {/* MOBILE SVG MAP (340x420, Tall 4:5 Aspect, Labels >= 14px in viewBox -> >= 12px on 320px screens) */}
+              <svg
+                className="venue-map-svg venue-map-mobile"
+                viewBox="0 0 340 420"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Stylized mobile map showing travel routes to Kumarakom Lake Resort"
+              >
+                <title>Kumarakom Travel Routes Map (Mobile)</title>
+
+                {/* Lake Vembanad Stylized Shape */}
+                <path
+                  d="M 50 15 C 90 75, 120 130, 130 200 C 140 270, 145 330, 155 410 L 70 410 C 50 330, 25 260, 15 180 C 10 110, 25 55, 50 15 Z"
+                  fill="#0B2E24"
+                  stroke="rgba(201, 162, 75, 0.25)"
+                  strokeWidth="1.5"
+                />
+
+                {/* Water Shimmer Waves */}
+                <path d="M 60 140 Q 85 135 110 140" stroke="rgba(232, 210, 150, 0.18)" strokeWidth="1.5" />
+                <path d="M 75 220 Q 100 215 125 220" stroke="rgba(232, 210, 150, 0.18)" strokeWidth="1.5" />
+                <path d="M 85 300 Q 110 295 135 300" stroke="rgba(232, 210, 150, 0.18)" strokeWidth="1.5" />
+
+                {/* 1. Air Route Path (Cochin Airport -> Kumarakom) */}
+                <path
+                  ref={pathAirMobRef}
+                  d="M 170 50 C 190 95, 205 145, 190 205"
+                  stroke="#C9A24B"
+                  strokeWidth="3"
+                  strokeDasharray="6 6"
+                  strokeLinecap="round"
+                  opacity={activeTab === 'air' ? 1 : 0.25}
+                  style={{ transition: 'opacity 0.4s ease' }}
+                />
+
+                {/* 2. Rail Route Path (Kottayam -> Kumarakom) */}
+                <path
+                  ref={pathRailMobRef}
+                  d="M 240 355 C 230 305, 210 250, 190 205"
+                  stroke="#C9A24B"
+                  strokeWidth="3"
+                  strokeDasharray="6 6"
+                  strokeLinecap="round"
+                  opacity={activeTab === 'rail' ? 1 : 0.25}
+                  style={{ transition: 'opacity 0.4s ease' }}
+                />
+
+                {/* 3. Water Route Path (Muhamma Jetty -> Kumarakom) */}
+                <path
+                  ref={pathWaterMobRef}
+                  d="M 75 205 C 115 205, 150 205, 190 205"
+                  stroke="#E8D296"
+                  strokeWidth="3"
+                  strokeDasharray="5 5"
+                  strokeLinecap="round"
+                  opacity={activeTab === 'water' ? 1 : 0.25}
+                  style={{ transition: 'opacity 0.4s ease' }}
+                />
+
+                {/* Traveling Vehicle / Dot */}
+                <circle
+                  ref={travelerMobRef}
+                  cx="190"
+                  cy="205"
+                  r="6"
+                  fill="#F8E7B2"
+                  filter="drop-shadow(0 0 8px #C9A24B)"
+                />
+
+                {/* PIN 1: Cochin Airport (COK) */}
+                <g transform="translate(170, 50)" opacity={activeTab === 'air' ? 1 : 0.45}>
+                  <circle cx="0" cy="0" r="14" fill="#0A2A21" stroke="#C9A24B" strokeWidth="2" />
+                  <text x="0" y="4.5" textAnchor="middle" fill="#E8D296" fontSize="12" fontWeight="700">1</text>
+                  <text x="0" y="-18" textAnchor="middle" fill="#E8D296" fontSize="15" fontWeight="700" fontFamily="sans-serif">
+                    Cochin Airport (COK)
+                  </text>
+                </g>
+
+                {/* PIN 2: Kottayam Railway Station (KTYM) */}
+                <g transform="translate(240, 355)" opacity={activeTab === 'rail' ? 1 : 0.45}>
+                  <circle cx="0" cy="0" r="14" fill="#0A2A21" stroke="#C9A24B" strokeWidth="2" />
+                  <text x="0" y="4.5" textAnchor="middle" fill="#E8D296" fontSize="12" fontWeight="700">2</text>
+                  <text x="0" y="28" textAnchor="middle" fill="#E8D296" fontSize="15" fontWeight="700" fontFamily="sans-serif">
+                    Kottayam (KTYM)
+                  </text>
+                </g>
+
+                {/* PIN 3: Muhamma Jetty (Water Route Start) */}
+                <g transform="translate(75, 205)" opacity={activeTab === 'water' ? 1 : 0.45}>
+                  <circle cx="0" cy="0" r="13" fill="#0A2A21" stroke="#E8D296" strokeWidth="2" />
+                  <text x="0" y="4.5" textAnchor="middle" fill="#E8D296" fontSize="11" fontWeight="700">3</text>
+                  <text x="0" y="-18" textAnchor="middle" fill="#E8D296" fontSize="14" fontWeight="600" fontFamily="sans-serif">
+                    Muhamma Jetty
+                  </text>
+                </g>
+
+                {/* PIN 4: Kumarakom Lake Resort (DESTINATION) */}
+                <g transform="translate(190, 205)">
+                  <circle cx="0" cy="0" r="18" fill="none" stroke="#C9A24B" strokeWidth="2" className="venue-resort-pulse" />
+                  <circle cx="0" cy="0" r="14" fill="#0F3B2E" stroke="#E8D296" strokeWidth="2" />
+                  <circle cx="0" cy="0" r="6" fill="#C9A24B" />
+                  <circle cx="0" cy="0" r="2.5" fill="#FFFBEB" />
+                  <text x="0" y="32" textAnchor="middle" fill="#F7F2E7" fontSize="15" fontWeight="700" fontFamily="serif">
+                    Kumarakom Lake Resort
+                  </text>
+                </g>
+              </svg>
+
+              {/* READABLE ROUTE LEGEND FOR MOBILE (<640px) */}
+              <div className="venue-map-legend" aria-label="Route map numbered legend">
+                <div className={`venue-legend-item ${activeTab === 'air' ? 'active' : ''}`}>
+                  <span className="venue-legend-badge">1</span>
+                  <span className="venue-legend-text">Cochin Airport (COK) — ~72 km (approx 1 hr 45 min)</span>
+                </div>
+                <div className={`venue-legend-item ${activeTab === 'rail' ? 'active' : ''}`}>
+                  <span className="venue-legend-badge">2</span>
+                  <span className="venue-legend-text">Kottayam Station (KTYM) — ~14 km (approx 25 min)</span>
+                </div>
+                <div className={`venue-legend-item ${activeTab === 'water' ? 'active' : ''}`}>
+                  <span className="venue-legend-badge">3</span>
+                  <span className="venue-legend-text">Muhamma Jetty — Scenic Shikara Backwater Cruise</span>
+                </div>
+                <div className="venue-legend-item destination">
+                  <span className="venue-legend-badge dest-badge">★</span>
+                  <span className="venue-legend-text">Kumarakom Lake Resort — Destination Sanctuary</span>
+                </div>
+              </div>
             </div>
 
             {/* ROUTE DETAIL PANEL (Animated text swap + km count-up) */}

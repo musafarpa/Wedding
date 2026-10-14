@@ -168,7 +168,11 @@ export default function CountdownRsvpSection() {
 
           <div className="cd-divider" aria-hidden="true">
             <span className="cd-divider-line" />
-            <span className="cd-divider-lamp">🪔</span>
+            <span className="cd-divider-lamp">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#C9A24B" aria-hidden="true">
+                <path d="M12 2 C11 5 8 8 8 11 C8 13.2 9.8 15 12 15 C14.2 15 16 13.2 16 11 C16 8 13 5 12 2 Z M5 16 C5 18.5 8 21 12 21 C16 21 19 18.5 19 16 C18 15.2 15 16 12 16 C9 16 6 15.2 5 16 Z" />
+              </svg>
+            </span>
             <span className="cd-divider-line" />
           </div>
 
@@ -206,8 +210,30 @@ function ScratchCard() {
   const isDrawingRef = useRef(false);
   const lastPointRef = useRef(null);
   const particlesRef = useRef([]);
-  const animFrameRef = useRef(null);
   const lastSampleTimeRef = useRef(0);
+  const lastWidthRef = useRef(0);
+  const offscreenCanvasRef = useRef(null);
+
+  // MatchMedia coarse pointer detection for touch devices
+  const [isTouchDevice, setIsTouchDevice] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(pointer: coarse)').matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(pointer: coarse)');
+    const updateTouch = (e) => setIsTouchDevice(e.matches);
+    if (mq.addEventListener) {
+      mq.addEventListener('change', updateTouch);
+      return () => mq.removeEventListener('change', updateTouch);
+    } else if (mq.addListener) {
+      mq.addListener(updateTouch);
+      return () => mq.removeListener(updateTouch);
+    }
+  }, []);
 
   // Check sessionStorage once on mount
   useEffect(() => {
@@ -226,11 +252,14 @@ function ScratchCard() {
     if (!canvas || isRevealed) return;
 
     const rect = canvas.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.floor(rect.width * dpr);
     canvas.height = Math.floor(rect.height * dpr);
 
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.save();
     ctx.scale(dpr, dpr);
 
     const w = rect.width;
@@ -255,18 +284,18 @@ function ScratchCard() {
 
     // 3. Subtle noise pattern
     ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
-    for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < 350; i++) {
       const rx = Math.random() * w;
       const ry = Math.random() * h;
       ctx.fillRect(rx, ry, 1.5, 1.5);
     }
 
-    // 4. Embossed Lotus Icon & Ring in center
+    // 4. Embossed Lotus Icon & Ring in center (Pure vector canvas paths - NO EMOJI)
     ctx.save();
-    ctx.translate(w / 2, h / 2 - 14);
+    ctx.translate(w / 2, h / 2 - 16);
     
-    // Lotus outline
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+    // Outer Ring
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.arc(0, 0, 32, 0, Math.PI * 2);
@@ -277,84 +306,63 @@ function ScratchCard() {
     ctx.arc(1, 1, 32, 0, Math.PI * 2);
     ctx.stroke();
 
-    // Central lotus petal
-    ctx.fillStyle = 'rgba(255, 253, 245, 0.75)';
-    ctx.font = '24px serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🪷', 0, 0);
+    // Sacred Lotus Vector Petals
+    ctx.fillStyle = '#FFE8A3';
+    ctx.strokeStyle = '#8C6F2A';
+    ctx.lineWidth = 1.2;
+
+    // Center Petal
+    ctx.beginPath();
+    ctx.moveTo(0, -14);
+    ctx.bezierCurveTo(7, -8, 7, 6, 0, 10);
+    ctx.bezierCurveTo(-7, 6, -7, -8, 0, -14);
+    ctx.fill();
+    ctx.stroke();
+
+    // Left Petal
+    ctx.beginPath();
+    ctx.moveTo(-1, 8);
+    ctx.bezierCurveTo(-14, 4, -18, -6, -10, -8);
+    ctx.bezierCurveTo(-5, -6, -2, 0, -1, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    // Right Petal
+    ctx.beginPath();
+    ctx.moveTo(1, 8);
+    ctx.bezierCurveTo(14, 4, 18, -6, 10, -8);
+    ctx.bezierCurveTo(5, -6, 2, 0, 1, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    // Base calyx
+    ctx.beginPath();
+    ctx.arc(0, 10, 4, 0, Math.PI);
+    ctx.fill();
     ctx.restore();
 
-    // 5. "Scratch to Reveal" Text
+    // 5. "SCRATCH TO REVEAL" Heading (No emoji)
     ctx.save();
     ctx.textAlign = 'center';
-    ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", sans-serif';
+    ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", sans-serif';
     ctx.letterSpacing = '0.18em';
     
     // Inset shadow text
     ctx.fillStyle = 'rgba(74, 53, 11, 0.45)';
-    ctx.fillText('✨ SCRATCH TO REVEAL ✨', w / 2 + 0.5, h / 2 + 38);
+    ctx.fillText('SCRATCH TO REVEAL', w / 2 + 0.5, h / 2 + 36);
     // Highlight text
-    ctx.fillStyle = '#4A350B';
-    ctx.fillText('✨ SCRATCH TO REVEAL ✨', w / 2, h / 2 + 37);
+    ctx.fillStyle = '#3E2A05';
+    ctx.fillText('SCRATCH TO REVEAL', w / 2, h / 2 + 35);
 
-    // Instruction subtitle
-    ctx.font = 'italic 11px Georgia, serif';
-    ctx.fillStyle = 'rgba(74, 53, 11, 0.65)';
-    ctx.fillText('Swipe pointer or finger across', w / 2, h / 2 + 56);
-    ctx.restore();
+    // 6. Hint Subtitle (Dynamic for touch vs mouse, >= 15px font)
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const hintText = isTouch ? 'Scratch with your finger' : 'Scratch with your mouse';
+    ctx.font = 'italic 15px Georgia, serif';
+    ctx.fillStyle = 'rgba(74, 53, 11, 0.88)';
+    ctx.fillText(hintText, w / 2, h / 2 + 58);
+    ctx.restore(); // restore heading save
+    ctx.restore(); // restore initial ctx.save() with scale
   }, [isRevealed]);
-
-  // Canvas particle loop
-  useEffect(() => {
-    if (isRevealed) return;
-    const pCanvas = particlesCanvasRef.current;
-    if (!pCanvas) return;
-
-    const pCtx = pCanvas.getContext('2d');
-    let frameId;
-
-    const updateParticles = () => {
-      const rect = pCanvas.getBoundingClientRect();
-      pCanvas.width = rect.width;
-      pCanvas.height = rect.height;
-
-      pCtx.clearRect(0, 0, rect.width, rect.height);
-
-      // Filter and draw alive particles
-      particlesRef.current = particlesRef.current.filter((p) => p.life > 0);
-      particlesRef.current.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.08; // gravity
-        p.life -= 0.035;
-
-        pCtx.save();
-        pCtx.fillStyle = `rgba(232, 210, 150, ${Math.max(0, p.life)})`;
-        pCtx.shadowColor = '#C9A24B';
-        pCtx.shadowBlur = 4;
-        pCtx.beginPath();
-        pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        pCtx.fill();
-        pCtx.restore();
-      });
-
-      frameId = requestAnimationFrame(updateParticles);
-    };
-
-    updateParticles();
-
-    return () => cancelAnimationFrame(frameId);
-  }, [isRevealed]);
-
-  useEffect(() => {
-    if (!isRevealed) {
-      initFoil();
-      const onResize = () => initFoil();
-      window.addEventListener('resize', onResize);
-      return () => window.removeEventListener('resize', onResize);
-    }
-  }, [initFoil, isRevealed]);
 
   // Reveal trigger handler
   const revealCard = useCallback(() => {
@@ -377,131 +385,225 @@ function ScratchCard() {
     } catch (err) {}
   }, [isRevealed]);
 
-  // Coarse grid sample checker (Sample every 8px, throttled to 150ms)
-  const checkClearedPercentage = useCallback(() => {
+  // Fast & efficient cleared percentage check via small offscreen canvas (60x38), throttled to 200ms
+  const checkClearedPercentage = useCallback((force = false) => {
     const canvas = canvasRef.current;
     if (!canvas || isRevealed) return;
 
     const now = Date.now();
-    if (now - lastSampleTimeRef.current < 150) return;
+    if (!force && now - lastSampleTimeRef.current < 200) return;
     lastSampleTimeRef.current = now;
 
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width;
-    const h = canvas.height;
-
     try {
-      const imgData = ctx.getImageData(0, 0, w, h);
+      if (!offscreenCanvasRef.current) {
+        offscreenCanvasRef.current = document.createElement('canvas');
+        offscreenCanvasRef.current.width = 60;
+        offscreenCanvasRef.current.height = 38;
+      }
+      const offCanvas = offscreenCanvasRef.current;
+      const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+      if (!offCtx) return;
+
+      offCtx.clearRect(0, 0, 60, 38);
+      offCtx.drawImage(canvas, 0, 0, 60, 38);
+
+      const imgData = offCtx.getImageData(0, 0, 60, 38);
       const data = imgData.data;
       let clearedCount = 0;
-      let totalSamples = 0;
+      const totalPixels = 60 * 38;
 
-      // Sample every 8 pixels
-      for (let y = 0; y < h; y += 8) {
-        for (let x = 0; x < w; x += 8) {
-          totalSamples++;
-          const alpha = data[(y * w + x) * 4 + 3];
-          if (alpha < 48) clearedCount++;
+      for (let i = 3; i < data.length; i += 4) {
+        if (data[i] < 48) {
+          clearedCount++;
         }
       }
 
-      if (totalSamples > 0 && clearedCount / totalSamples >= CONFIG.scratch.autoRevealAt) {
+      // Auto-reveal at 40% on touch devices, 50% on desktop
+      const isTouch = window.matchMedia('(pointer: coarse)').matches;
+      const threshold = isTouch ? 0.40 : 0.50;
+
+      if (clearedCount / totalPixels >= threshold) {
         revealCard();
       }
-    } catch (e) {}
+    } catch (_) {}
   }, [isRevealed, revealCard]);
 
-  // Scratch action
-  const scratchAt = (x, y) => {
+  // ResizeObserver: Sizing canvas only when dimensions > 0, re-initializing ONLY on width changes > 2px
+  // NEVER redraw on mobile address-bar height changes, scroll, or while stroke is active
+  useEffect(() => {
+    if (isRevealed) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const targetEl = canvas.parentElement || canvas;
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width <= 0 || height <= 0) return;
+        if (isDrawingRef.current) return;
+
+        // Re-initialize only if width changed by more than 2px
+        if (Math.abs(width - lastWidthRef.current) > 2) {
+          lastWidthRef.current = width;
+          initFoil();
+        }
+      }
+    });
+
+    ro.observe(targetEl);
+    return () => ro.disconnect();
+  }, [initFoil, isRevealed]);
+
+  // Pointer event listeners attached directly to canvas with { passive: false }
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || isRevealed) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const ctx = canvas.getContext('2d');
-    const isMobile = window.innerWidth < 640;
-    const radius = isMobile ? CONFIG.scratch.brushMobile : CONFIG.scratch.brush;
+    const handlePointerDown = (e) => {
+      if (isRevealed) return;
+      e.preventDefault();
+      try {
+        canvas.setPointerCapture(e.pointerId);
+      } catch (_) {}
 
-    ctx.save();
-    ctx.scale(dpr, dpr);
-    ctx.globalCompositeOperation = 'destination-out';
+      isDrawingRef.current = true;
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+      lastPointRef.current = { x, y };
 
-    // Soft feathered brush
-    const brush = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    brush.addColorStop(0, 'rgba(0, 0, 0, 1)');
-    brush.addColorStop(0.7, 'rgba(0, 0, 0, 0.85)');
-    brush.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = brush;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const isMobile = window.innerWidth < 640;
+      const radius = (isMobile ? 24 : 26) * dpr;
 
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Connect last point for smooth continuity
-    if (lastPointRef.current) {
-      ctx.lineWidth = radius * 1.8;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+      const ctx = canvas.getContext('2d');
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
-      ctx.moveTo(lastPointRef.current.x, lastPointRef.current.y);
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    }
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
 
-    ctx.restore();
-    lastPointRef.current = { x, y };
+      checkClearedPercentage();
+    };
 
-    // Emit gold dust flakes (max 30 active)
-    if (particlesRef.current.length < 30) {
-      for (let i = 0; i < 2; i++) {
-        particlesRef.current.push({
-          x: x + (Math.random() - 0.5) * radius,
-          y: y + (Math.random() - 0.5) * radius,
-          vx: (Math.random() - 0.5) * 3,
-          vy: (Math.random() - 0.8) * 3,
-          radius: Math.random() * 2 + 1,
-          life: 1,
-        });
+    const handlePointerMove = (e) => {
+      if (!isDrawingRef.current || isRevealed) return;
+      e.preventDefault();
+
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const isMobile = window.innerWidth < 640;
+      const radius = (isMobile ? 24 : 26) * dpr;
+
+      const ctx = canvas.getContext('2d');
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = radius * 2;
+
+      const coalesced = typeof e.getCoalescedEvents === 'function' ? e.getCoalescedEvents() : null;
+      const events = (coalesced && coalesced.length > 0) ? coalesced : [e];
+      for (const ev of events) {
+        const x = (ev.clientX - rect.left) * (canvas.width / rect.width);
+        const y = (ev.clientY - rect.top) * (canvas.height / rect.height);
+
+        if (lastPointRef.current) {
+          ctx.beginPath();
+          ctx.moveTo(lastPointRef.current.x, lastPointRef.current.y);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+        lastPointRef.current = { x, y };
+
+        // Gold dust particles (max 30 active)
+        if (particlesRef.current.length < 30) {
+          particlesRef.current.push({
+            x: x / dpr,
+            y: y / dpr,
+            vx: (Math.random() - 0.5) * 3,
+            vy: (Math.random() - 0.8) * 3,
+            radius: Math.random() * 2 + 1,
+            life: 1,
+          });
+        }
       }
-    }
+      ctx.restore();
 
-    checkClearedPercentage();
-  };
+      checkClearedPercentage();
+    };
 
-  const handlePointerDown = (e) => {
+    const handlePointerUp = (e) => {
+      isDrawingRef.current = false;
+      lastPointRef.current = null;
+      try {
+        if (canvas.hasPointerCapture(e.pointerId)) {
+          canvas.releasePointerCapture(e.pointerId);
+        }
+      } catch (_) {}
+      checkClearedPercentage(true);
+    };
+
+    canvas.addEventListener('pointerdown', handlePointerDown, { passive: false });
+    canvas.addEventListener('pointermove', handlePointerMove, { passive: false });
+    canvas.addEventListener('pointerup', handlePointerUp);
+    canvas.addEventListener('pointercancel', handlePointerUp);
+    canvas.addEventListener('lostpointercapture', handlePointerUp);
+
+    return () => {
+      canvas.removeEventListener('pointerdown', handlePointerDown);
+      canvas.removeEventListener('pointermove', handlePointerMove);
+      canvas.removeEventListener('pointerup', handlePointerUp);
+      canvas.removeEventListener('pointercancel', handlePointerUp);
+      canvas.removeEventListener('lostpointercapture', handlePointerUp);
+    };
+  }, [isRevealed, checkClearedPercentage]);
+
+  // Particles animation frame loop
+  useEffect(() => {
     if (isRevealed) return;
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch (err) {}
-    
-    // Restrict touch-action ONLY while pointer is down so regular page scrolling is unaffected
-    if (canvasRef.current) {
-      canvasRef.current.style.touchAction = 'none';
-    }
+    const pCanvas = particlesCanvasRef.current;
+    if (!pCanvas) return;
 
-    isDrawingRef.current = true;
-    const rect = e.currentTarget.getBoundingClientRect();
-    scratchAt(e.clientX - rect.left, e.clientY - rect.top);
-  };
+    const pCtx = pCanvas.getContext('2d');
+    let frameId;
 
-  const handlePointerMove = (e) => {
-    if (!isDrawingRef.current || isRevealed) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    scratchAt(e.clientX - rect.left, e.clientY - rect.top);
-  };
+    const updateParticles = () => {
+      const rect = pCanvas.getBoundingClientRect();
+      pCanvas.width = rect.width;
+      pCanvas.height = rect.height;
 
-  const handlePointerUp = (e) => {
-    isDrawingRef.current = false;
-    lastPointRef.current = null;
-    if (canvasRef.current) {
-      canvasRef.current.style.touchAction = 'auto';
-    }
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch (err) {}
-  };
+      pCtx.clearRect(0, 0, rect.width, rect.height);
+
+      particlesRef.current = particlesRef.current.filter((p) => p.life > 0);
+      particlesRef.current.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08;
+        p.life -= 0.035;
+
+        pCtx.save();
+        pCtx.fillStyle = `rgba(232, 210, 150, ${Math.max(0, p.life)})`;
+        pCtx.shadowColor = '#C9A24B';
+        pCtx.shadowBlur = 4;
+        pCtx.beginPath();
+        pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        pCtx.fill();
+        pCtx.restore();
+      });
+
+      frameId = requestAnimationFrame(updateParticles);
+    };
+
+    updateParticles();
+    return () => cancelAnimationFrame(frameId);
+  }, [isRevealed]);
 
   return (
-    <div className="cd-scratch-container">
+    <div className="cd-scratch-container" data-lenis-prevent="true">
       {/* Screen Reader polite live region */}
       <span className="sr-only" aria-live="polite">
         {liveAnnouncement}
@@ -509,6 +611,7 @@ function ScratchCard() {
 
       <div
         className="cd-scratch-card"
+        data-lenis-prevent="true"
         tabIndex={0}
         role="button"
         aria-label="Scratch card to reveal the sacred wedding date. Press Enter or Space to reveal."
@@ -528,7 +631,9 @@ function ScratchCard() {
           <div className="cd-prize-time">Saturday • 09:30 AM IST</div>
           <div className="cd-prize-venue">
             <span>Kumarakom Lake Resort</span>
-            <span role="img" aria-label="nilavilakku lamp">🪔</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#C9A24B" aria-hidden="true">
+              <path d="M12 2 C11 5 8 8 8 11 C8 13.2 9.8 15 12 15 C14.2 15 16 13.2 16 11 C16 8 13 5 12 2 Z M5 16 C5 18.5 8 21 12 21 C16 21 19 18.5 19 16 C18 15.2 15 16 12 16 C9 16 6 15.2 5 16 Z" />
+            </svg>
           </div>
         </div>
 
@@ -537,10 +642,7 @@ function ScratchCard() {
           <canvas
             ref={canvasRef}
             className="cd-scratch-canvas"
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
+            aria-label="Scratch surface"
           />
         )}
 
@@ -565,10 +667,15 @@ function ScratchCard() {
           Reveal instead
         </button>
       ) : (
-        <span style={{ fontSize: '0.8rem', color: '#8C6F2A', marginTop: '0.65rem', fontWeight: 600 }}>
-          ✨ Date Revealed
+        <span style={{ fontSize: '0.85rem', color: '#8C6F2A', marginTop: '16px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          <Sparkles size={14} color="#C9A24B" /> Date Revealed
         </span>
       )}
+
+      {/* SCROLL CAPTION FOR MOBILE */}
+      <span className="cd-scratch-scroll-hint">
+        Scroll by touching outside the card
+      </span>
     </div>
   );
 }
@@ -662,7 +769,7 @@ function FlipCountdown() {
             Today is the day!
           </h3>
           <p style={{ color: '#8C6F2A', marginTop: '0.4rem', fontSize: '0.95rem' }}>
-            The sacred muhurtham has arrived. 🪷
+            The sacred muhurtham has arrived.
           </p>
         </div>
       ) : (
@@ -693,7 +800,14 @@ function FlipCountdown() {
                 style={{ left: `${progressPercent}%` }}
                 title="Sacred Journey Progress"
               >
-                🪔
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2C12 2 8 7 8 11C8 13.2 9.8 15 12 15C14.2 15 16 13.2 16 11C16 7 12 2 12 2Z" fill="#F4D03F" />
+                  <path d="M12 5C12 5 10 8 10 10.5C10 11.9 10.9 13 12 13C13.1 13 14 11.9 14 10.5C14 8 12 5 12 5Z" fill="#E86C1E" />
+                  <ellipse cx="12" cy="17" rx="8" ry="2.5" fill="#C9A24B" stroke="#8C6F2A" strokeWidth="0.8" />
+                  <path d="M6 17L12 22L18 17" fill="#B38E32" />
+                  <rect x="10.5" y="19" width="3" height="3" fill="#8C6F2A" />
+                  <ellipse cx="12" cy="22" rx="4" ry="1.2" fill="#C9A24B" />
+                </svg>
               </div>
             </div>
             <div className="cd-progress-labels">
